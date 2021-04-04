@@ -52,13 +52,13 @@ if(isset($_POST["register"])) {
 
             if($email_valid && $password_valid) {
                 // Passwords hash
-                $password_hash = password_hash($password, PASSWORD_BCRYPT);
+                $password_hash = password_hash($_password, PASSWORD_BCRYPT);
 
                 // check password confirmation
                 if(password_verify($_confirmPassword, $password_hash)) {
                     // Query
                     $sql = "INSERT INTO users (email, password, date_time) VALUES (
-                        '{$email}', AES_ENCRYPT('{$password}', 'passw'), now())";
+                        '{$_email}', AES_ENCRYPT('{$_password}', 'passw'), now())";
 
                     // Create mysql query
                     $sqlQuery = mysqli_query($connection, $sql);
