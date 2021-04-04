@@ -19,3 +19,6 @@ The user is able to register with their email and password. And the application 
 * User registration system
 * Login system
 * Log Out
+
+## Demo
+![demo.gif](https://github.com/lanyshi/php_user_authentication/blob/main/demo/user_authentication_demo.gif)
