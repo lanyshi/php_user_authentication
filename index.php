@@ -1,3 +1,5 @@
+<?php include('controllers/login.php'); ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -17,16 +19,20 @@
 <div class="registration-form">
     <form action="" method="post">
         <div class="form-icon">
-            <span><i class="icon icon-user"></i></span>
+            <span><i class="icon icon-login"></i></span>
         </div>
         <div class="form-group">
             <input type="email" class="form-control item" name="email" id="email" placeholder="Email">
+            <?php echo $accountNotExistErr; ?>
+            <?php echo $email_empty_err; ?>
         </div>
         <div class="form-group">
             <input type="password" class="form-control item" name="password" id="password" placeholder="Password">
+            <?php echo $wrongPwdErr; ?>
+            <?php echo $pass_empty_err; ?>
         </div>
         <div class="form-group">
-            <button type="button" class="btn btn-block submit" name="login" id="login">Login</button>
+            <button type="submit" class="btn btn-block submit" name="login" id="login">Login</button>
         </div>
     </form>
     <div class="alternate">

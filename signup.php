@@ -1,4 +1,4 @@
-<?php include('./controllers/register.php'); ?>
+<?php include('controllers/register.php'); ?>
 
 <!doctype html>
 <html lang="en">
@@ -23,19 +23,16 @@
         </div>
         <div class="form-group">
             <input type="email" class="form-control item" name="email" id="email" placeholder="Email">
-
             <?php echo $_emailErr; ?>
             <?php echo $emailEmptyErr; ?>
         </div>
         <div class="form-group">
             <input type="password" class="form-control item" name="password" id="password" placeholder="Password">
-
             <?php echo $_passwordErr; ?>
             <?php echo $passwordEmptyErr; ?>
         </div>
         <div class="form-group">
             <input type="password" class="form-control item" name="confirm_password" id="confirm_password" placeholder="Confirm Password">
-
             <?php echo $confirmPasswordEmptyErr; ?>
             <?php echo $passwordsDontMatchErr; ?>
         </div>

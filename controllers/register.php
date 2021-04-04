@@ -28,8 +28,7 @@ if(isset($_POST["register"])) {
                 <div class="alert alert-danger" role="alert">
                     Email has already been registered.
                 </div>';
-        }
-        else {
+        } else {
             // clean the form data before sending to database
             $_email = mysqli_real_escape_string($connection, $email);
             $_password = mysqli_real_escape_string($connection, $password);
@@ -58,7 +57,7 @@ if(isset($_POST["register"])) {
                 if(password_verify($_confirmPassword, $password_hash)) {
                     // Query
                     $sql = "INSERT INTO users (email, password, date_time) VALUES (
-                        '{$_email}', AES_ENCRYPT('{$_password}', 'passw'), now())";
+                        '{$_email}', '{$password_hash}', now())";
 
                     // Create mysql query
                     $sqlQuery = mysqli_query($connection, $sql);
@@ -69,16 +68,14 @@ if(isset($_POST["register"])) {
                     else {
                         header("Location: registration_success.php");
                     }
-                }
-                else {
+                } else {
                     $passwordsDontMatchErr = '<div class="alert alert-danger">
                              Passwords do not match.
                         </div>';
                 }
             }
         }
-    }
-    else {
+    } else {
         if(empty($email)) {
             $emailEmptyErr = '<div class="alert alert-danger">
                     Email can\'t be blank.
