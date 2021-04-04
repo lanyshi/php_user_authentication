@@ -20,7 +20,7 @@
             <span><i class="icon icon-user"></i></span>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control item" name="username" id="username" placeholder="Username">
+            <input type="email" class="form-control item" name="email" id="email" placeholder="Email">
         </div>
         <div class="form-group">
             <input type="password" class="form-control item" name="password" id="password" placeholder="Password">
