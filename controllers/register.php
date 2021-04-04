@@ -4,36 +4,26 @@
 include('config/db.php');
 
 // Error & success messages
-global $success_msg, $email_exist, $username_exist, $_usernameErr, $_emailErr, $_passwordErr;
-global $usernameEmptyErr, $emailEmptyErr, $passwordEmptyErr;
+global $email_exist, $_emailErr, $_passwordErr;
+global $emailEmptyErr, $passwordEmptyErr, $confirmPasswordEmptyErr, $passwordsDontMatchErr;
 
 // Set empty form vars for validation mapping
-$_username = $_email = $_password = "";
+$_email = $_password = "";
 
-if(isset($_POST["submit"])) {
-    $username = $_POST["username"];
+if(isset($_POST["register"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
-
-    // check if username already exists
-    $username_check_query = mysqli_query($connection, "SELECT * FROM users WHERE username = '{$username}' ");
-    $userRowCount = mysqli_num_rows($username_check_query);
+    $confirmPassword = $_POST["confirm_password"];
 
     // check if email already exists
     $email_check_query = mysqli_query($connection, "SELECT * FROM users WHERE email = '{$email}' ");
-    $emailRowCount = mysqli_num_rows($email_check_query);
+    $rowCount = mysqli_num_rows($email_check_query);
 
     // PHP validation
     // Verify if form values are not empty
-    if(!empty($username) && !empty($email) && !empty($password)){
-        // check if username already exist
-        if($userRowCount > 0) {
-            $username_exist = '
-                <div class="alert alert-danger" role="alert">
-                    Username already exists.
-                </div>';
-        }
-        elseif ($emailRowCount > 0) {
+    if(!empty($email) && !empty($password) && !empty($confirmPassword)){
+        // check if email already exist
+        if ($rowCount > 0) {
             $email_exist = '
                 <div class="alert alert-danger" role="alert">
                     Email has already been registered.
@@ -41,21 +31,14 @@ if(isset($_POST["submit"])) {
         }
         else {
             // clean the form data before sending to database
-            $_username = mysqli_real_escape_string($connection, $username);
             $_email = mysqli_real_escape_string($connection, $email);
             $_password = mysqli_real_escape_string($connection, $password);
+            $_confirmPassword = mysqli_real_escape_string($connection, $confirmPassword);
 
             // perform validation
-            $username_valid = preg_match("/^[a-z\d_]{5,20}$/i", $_username);
             $email_valid = filter_var($_email, FILTER_VALIDATE_EMAIL);
             $password_valid = preg_match("/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z]{8,20}$/", $_password);
 
-            if(!$username_valid) {
-                $_usernameErr = '
-                    <div class="alert alert-danger">
-                        Username should only contain alphabet, number, underscore, and has 5 to 20 characters.
-                    </div>';
-            }
             if(!$email_valid) {
                 $_emailErr = '<div class="alert alert-danger">
                             Email format is invalid.
@@ -67,32 +50,35 @@ if(isset($_POST["submit"])) {
                         </div>';
             }
 
-            if($username_valid && $email_valid && $password_valid) {
-                // Password hash
+            if($email_valid && $password_valid) {
+                // Passwords hash
                 $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
-                // Query
-                $sql = "INSERT INTO users (username, email, password, date_time) VALUES (
-                        '{$username}', '{$email}', AES_ENCRYPT('{$password}', 'passw'), now())";
+                // check password confirmation
+                if(password_verify($_confirmPassword, $password_hash)) {
+                    // Query
+                    $sql = "INSERT INTO users (email, password, date_time) VALUES (
+                        '{$email}', AES_ENCRYPT('{$password}', 'passw'), now())";
 
-                // Create mysql query
-                $sqlQuery = mysqli_query($connection, $sql);
+                    // Create mysql query
+                    $sqlQuery = mysqli_query($connection, $sql);
 
-                if(!$sqlQuery){
-                    die("MySQL query failed!" . mysqli_error($connection));
+                    if(!$sqlQuery){
+                        die("MySQL query failed!" . mysqli_error($connection));
+                    }
+                    else {
+                        header("Location: registration_success.php");
+                    }
                 }
                 else {
-                    header("Location: registration_success.php");
+                    $passwordsDontMatchErr = '<div class="alert alert-danger">
+                             Passwords do not match.
+                        </div>';
                 }
             }
         }
     }
     else {
-        if(empty($username)) {
-            $usernameEmptyErr = '<div class="alert alert-danger">
-                    Username can\'t be blank.
-                </div>';
-        }
         if(empty($email)) {
             $emailEmptyErr = '<div class="alert alert-danger">
                     Email can\'t be blank.
@@ -101,6 +87,11 @@ if(isset($_POST["submit"])) {
         if(empty($password)) {
             $passwordEmptyErr = '<div class="alert alert-danger">
                     Password can\'t be blank.
+                </div>';
+        }
+        if(empty($confirmPassword)) {
+            $confirmPasswordEmptyErr = '<div class="alert alert-danger">
+                    Please confirm password.
                 </div>';
         }
     }

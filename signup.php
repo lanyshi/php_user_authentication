@@ -22,10 +22,10 @@
             <span><i class="icon icon-user"></i></span>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control item" name="username" id="username" placeholder="Username">
+            <input type="email" class="form-control item" name="email" id="email" placeholder="Email">
 
-            <?php echo $_usernameErr; ?>
-            <?php echo $usernameEmptyErr; ?>
+            <?php echo $_emailErr; ?>
+            <?php echo $emailEmptyErr; ?>
         </div>
         <div class="form-group">
             <input type="password" class="form-control item" name="password" id="password" placeholder="Password">
@@ -34,16 +34,14 @@
             <?php echo $passwordEmptyErr; ?>
         </div>
         <div class="form-group">
-            <input type="email" class="form-control item" name="email" id="email" placeholder="Email">
+            <input type="password" class="form-control item" name="confirm_password" id="confirm_password" placeholder="Confirm Password">
 
-            <?php echo $_emailErr; ?>
-            <?php echo $emailEmptyErr; ?>
+            <?php echo $confirmPasswordEmptyErr; ?>
+            <?php echo $passwordsDontMatchErr; ?>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-block create-account" name="submit" id="submit">Create Account</button>
+            <button type="submit" class="btn btn-block submit" name="register" id="register">Create Account</button>
         </div>
-
-        <?php echo $username_exist; ?>
         <?php echo $email_exist; ?>
     </form>
     <div class="alternate">

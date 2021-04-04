@@ -20,13 +20,13 @@
             <span><i class="icon icon-user"></i></span>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control item" id="username" placeholder="Username">
+            <input type="text" class="form-control item" name="username" id="username" placeholder="Username">
         </div>
         <div class="form-group">
-            <input type="password" class="form-control item" id="password" placeholder="Password">
+            <input type="password" class="form-control item" name="password" id="password" placeholder="Password">
         </div>
         <div class="form-group">
-            <button type="button" class="btn btn-block create-account">Login</button>
+            <button type="button" class="btn btn-block submit" name="login" id="login">Login</button>
         </div>
     </form>
     <div class="alternate">

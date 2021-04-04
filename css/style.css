@@ -42,7 +42,7 @@ body{
     padding: 10px 20px;
 }
 
-.registration-form .create-account, .success-form .success-login{
+.registration-form .submit, .success-form .success-login{
     border-radius: 30px;
     padding: 10px 20px;
     font-size: 18px;
